@@ -1,0 +1,49 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" ng-app="app">
+<head>
+    <meta charset="utf-8" />
+    <title>form-group directive</title>
+   <link href="styles/bootstrap.css" rel="stylesheet" />
+    <link rel="stylesheet" href="app.css" type="text/css" />
+</head>
+<body ng-controller="app.ctrl">
+
+   <div class="container-fluid">
+      <h1>Angular\Bootstrap form-group directive</h1>
+      <form name="form" class="form-horizontal" ng-submit="submit(form)" novalidate>
+         <div class="form-group" form-group>
+            <label for="text" class="col-md-2 control-label">Text</label>
+            <div class="col-md-10">
+               <input id="text" name="text" type="text" class="form-control" ng-model="text" required />
+            </div>
+         </div>
+         <div class="form-group">
+            <label for="number" class="col-md-2 control-label">Number (5-10)</label>
+            <div class="col-md-10">
+               <input id="number" name="number" type="number" class="form-control" ng-model="number" min="5" max="10" required />
+            </div>
+         </div>
+         <div class="form-group">
+            <label for="select" class="col-md-2 control-label">Select</label>
+            <div class="col-md-10">
+               <select id="select" name="select" class="form-control" ng-model="select" required>
+                  <option value="">Select one</option>
+                  <option value="1">One</option>
+                  <option value="2">Two</option>
+                  <option value="3">Three</option>
+               </select>
+            </div>
+         </div>
+         <div class="btn-group">
+            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="button" class="btn btn-default" ng-click="reset(form)">Reset</button>
+         </div>
+      </form>
+   </div>
+
+   <script src="lib/angular/angular.js"></script>
+   <script src="form-group.js"></script>
+   <script src="app.js"></script>
+</body>
+</html>
