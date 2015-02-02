@@ -12,22 +12,22 @@
    <div class="container-fluid">
       <h1>Angular\Bootstrap form-group directive</h1>
       <form name="form" class="form-horizontal" ng-submit="submit(form)" novalidate>
-         <div class="form-group" form-group>
+         <div class="form-group" form-group valid-message="Nice text!" invalid-message="Please enter some text">
             <label for="text" class="col-md-2 control-label">Text</label>
             <div class="col-md-10">
-               <input id="text" name="text" type="text" class="form-control" ng-model="text" required />
+               <input id="text" name="text" type="text" placeholder="Enter text" class="form-control" ng-model="model.text" required />
             </div>
          </div>
-         <div class="form-group">
+         <div class="form-group" form-group valid-message="Nice number!" invalid-message="Please enter a number from 5-10">
             <label for="number" class="col-md-2 control-label">Number (5-10)</label>
             <div class="col-md-10">
-               <input id="number" name="number" type="number" class="form-control" ng-model="number" min="5" max="10" required />
+               <input id="number" name="number" type="number" placeholder="Enter number" class="form-control" ng-model="model.number" min="5" max="10" required />
             </div>
          </div>
-         <div class="form-group">
+         <div class="form-group" form-group valid-message="Nice selection!" invalid-message="Please make a selection">
             <label for="select" class="col-md-2 control-label">Select</label>
             <div class="col-md-10">
-               <select id="select" name="select" class="form-control" ng-model="select" required>
+               <select id="select" name="select" class="form-control" ng-model="model.select" required>
                   <option value="">Select one</option>
                   <option value="1">One</option>
                   <option value="2">Two</option>
@@ -40,9 +40,31 @@
             <button type="button" class="btn btn-default" ng-click="reset(form)">Reset</button>
          </div>
       </form>
+
+      <br />
+
+      <div class="row form-group">
+         <label class="col-md-2">Text</label>
+         <div class="col-md-10">
+            <input type="text" class="form-control" ng-model="model.text" readonly />
+         </div>
+      </div>
+      <div class="row form-group">
+         <label class="col-md-2">Number</label>
+         <div class="col-md-10">
+            <input type="text" class="form-control" ng-model="model.number" readonly />
+         </div>
+      </div>
+      <div class="row form-group">
+         <label class="col-md-2">Select</label>
+         <div class="col-md-10">
+            <input type="text" class="form-control" ng-model="model.select" readonly />
+         </div>
+      </div>
    </div>
 
    <script src="lib/angular/angular.js"></script>
+   <script src="lib/angular-ui/ui-bootstrap-tpls.js"></script>
    <script src="form-group.js"></script>
    <script src="app.js"></script>
 </body>
