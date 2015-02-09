@@ -24,7 +24,6 @@ app.controller('app.ctrl', ['$scope', function ($scope) {
       if (formCtrl.$valid) {
          console.log('valid submit')
          $scope.savedModel = angular.copy($scope.model)
-         formCtrl.$setPristine()
       } else {
          console.log('invalid submit')
       }

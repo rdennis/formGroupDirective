@@ -13,56 +13,58 @@ m.constant('formGroupConfig', {
     invalidClass: 'has-error',
     invalidMessage: ''
 });
-m.directive('formGroup', ['formGroupConfig', '$compile', function (defaultConfig, $compile) {
+m.directive('formGroup', ['formGroupConfig', function (defaultConfig) {
     var definition = {
         restrict: defaultConfig.restrict || 'EA',
         require: '^^form',
-        transclude: true,
-        template: '<div popover="{{message}}" popover-trigger="mouseenter">' + '  <ng-transclude></ng-transclude>' + '</div>',
-        scope: {
-            pristineClass: '@',
-            pristineMessage: '@',
-            validClass: '@',
-            validMessage: '@',
-            invalidClass: '@',
-            invalidMessage: '@'
-        },
-        link: function ($scope, element, attrs) {
-            // set default attrs if none exist
-            angular.forEach(defaultConfig, function (value, key) {
-                if (key != 'restrict' && angular.isUndefined($scope[key]))
-                    $scope[key] = value;
-                if (angular.isDefined(attrs[key])) {
+        priority: 2000,
+        scope: true,
+        compile: function (element, attrs) {
+            var input = angular.element(element[0].querySelector('.form-control'));
+            if (input.length < 1)
+                return angular.noop;
+            // add validation popover
+            input.attr('popover', '{{message}}');
+            input.attr('popover-trigger', 'mouseenter');
+            return function link($scope, element, attrs) {
+                var formCtrl = element.controller('form');
+                var inputCtrl = input.controller('ngModel');
+                if (!formCtrl || !inputCtrl)
+                    return;
+                // set scope from attrs and watch for changes
+                angular.forEach(defaultConfig, function (value, key) {
+                    if (key === 'restrict')
+                        return;
+                    $scope[key] = attrs[key] || value;
                     attrs.$observe(key, function (value) {
                         $scope[key] = value;
                     });
-                }
-            });
-            $scope.message = '';
-            var input = angular.element(element[0].querySelector('.form-control'));
-            if (input.length > 0) {
-                var formCtrl = element.controller('form');
-                var inputCtrl = input.controller('ngModel');
+                });
+                $scope.message = '';
                 if ($scope.invalidOnBlur) {
-                    input.on('blur', function (event) {
+                    var setDirty = function () {
                         inputCtrl.$dirty = true;
-                        $scope.$digest();
+                    };
+                    input.on('blur', setDirty);
+                    input.on('$destroy', function ($event) {
+                        input.off('blur', setDirty);
                     });
                 }
                 $scope.$watch(function () {
-                    if ((inputCtrl.$dirty || formCtrl.$submitted) && inputCtrl.$invalid)
+                    if (inputCtrl.$invalid && (inputCtrl.$dirty || formCtrl.$submitted))
                         return 'invalid';
+                    if (inputCtrl.$valid && (inputCtrl.$dirty || formCtrl.$submitted))
+                        return 'valid';
                     if (inputCtrl.$pristine)
                         return 'pristine';
-                    if (inputCtrl.$valid)
-                        return 'valid';
-                }, function (newState, oldState, $scope) {
-                    var removeClass = $scope[oldState + 'Class'] || '';
-                    var addClass = $scope[newState + 'Class'] || '';
-                    element.removeClass(removeClass).addClass(addClass);
-                    $scope.message = $scope[newState + 'Message'] || '';
+                }, function (newState, oldState, scope) {
+                    var oldClass = scope[oldState + 'Class'];
+                    var newClass = scope[newState + 'Class'];
+                    var message = scope[newState + 'Message'];
+                    element.removeClass(oldClass).addClass(newClass);
+                    $scope.message = message;
                 });
-            }
+            };
         }
     };
     return definition;

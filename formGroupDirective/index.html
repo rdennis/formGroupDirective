@@ -11,6 +11,7 @@
 
    <div class="container-fluid">
       <h1>Angular\Bootstrap form-group directive</h1>
+
       <form name="form" class="form-horizontal" ng-submit="submit(form)" novalidate>
          <div class="form-group" form-group valid-message="Nice text!" invalid-message="Please enter some text">
             <label for="text" class="col-md-2 control-label">Text</label>
@@ -35,32 +36,12 @@
                </select>
             </div>
          </div>
+
          <div class="btn-group">
             <button type="submit" class="btn btn-primary">Submit</button>
             <button type="button" class="btn btn-default" ng-click="reset(form)">Reset</button>
          </div>
       </form>
-
-      <br />
-
-      <div class="row form-group">
-         <label class="col-md-2">Text</label>
-         <div class="col-md-10">
-            <input type="text" class="form-control" ng-model="model.text" readonly />
-         </div>
-      </div>
-      <div class="row form-group">
-         <label class="col-md-2">Number</label>
-         <div class="col-md-10">
-            <input type="text" class="form-control" ng-model="model.number" readonly />
-         </div>
-      </div>
-      <div class="row form-group">
-         <label class="col-md-2">Select</label>
-         <div class="col-md-10">
-            <input type="text" class="form-control" ng-model="model.select" readonly />
-         </div>
-      </div>
    </div>
 
    <script src="lib/angular/angular.js"></script>
