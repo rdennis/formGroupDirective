@@ -38,11 +38,12 @@ m.directive('formGroup', ['formGroupConfig', function (defaultConfig: IFormGroup
       scope: true,
       compile: function (element, attrs) {
          var input = angular.element(element[0].querySelector('.form-control'))
-
           // no .form-control found
          if (input.length < 1) return angular.noop
 
          return function link($scope, element: ng.IAugmentedJQuery, attrs: ng.IAttributes, formCtrl: ng.IFormController) {
+            // element may be a different instance if transcluded
+            input = angular.element(element[0].querySelector('.form-control'))
             var inputCtrl: ng.INgModelController = input.controller('ngModel')
 
             if (!formCtrl || !inputCtrl) return

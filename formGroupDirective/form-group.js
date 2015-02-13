@@ -25,6 +25,8 @@ m.directive('formGroup', ['formGroupConfig', function (defaultConfig) {
             if (input.length < 1)
                 return angular.noop;
             return function link($scope, element, attrs, formCtrl) {
+                // element may be a different instance if transcluded
+                input = angular.element(element[0].querySelector('.form-control'));
                 var inputCtrl = input.controller('ngModel');
                 if (!formCtrl || !inputCtrl)
                     return;
