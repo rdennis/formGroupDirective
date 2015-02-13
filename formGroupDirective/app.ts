@@ -1,6 +1,6 @@
 ﻿'use strict';
 
-var app = angular.module('app', ['albatross.ng.ui.bootstrap', 'ui.bootstrap.tpls'])
+var app = angular.module('app', ['albatross.ng.ui.bootstrap'])
 
 app.config(['formGroupConfig', function (formGroupConfig: IFormGroupConfig) {
    formGroupConfig.invalidOnBlur = true,

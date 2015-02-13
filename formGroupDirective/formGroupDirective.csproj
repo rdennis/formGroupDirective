@@ -19,10 +19,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Content Include="app.css" />
-    <Content Include="lib\angular-ui\ui-bootstrap-tpls.js" />
-    <Content Include="lib\angular-ui\ui-bootstrap-tpls.min.js" />
-    <Content Include="lib\angular-ui\ui-bootstrap.js" />
-    <Content Include="lib\angular-ui\ui-bootstrap.min.js" />
     <Content Include="styles\bootstrap.css" />
     <Content Include="index.html" />
     <Content Include="lib\angular\angular-mocks.js" />

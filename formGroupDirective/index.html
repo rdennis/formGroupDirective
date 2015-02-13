@@ -25,6 +25,7 @@
                <input id="text" name="text" type="text" placeholder="Enter text" class="form-control" ng-model="model.text" required
                       ng-minlength="3"
                       ng-maxlength="10" />
+                <span class="help-block">{{message}}</span>
             </div>
          </div>
          <div class="form-group" form-group valid-message="Nice number!"
@@ -36,6 +37,7 @@
             <label for="number" class="col-md-2 control-label">Number (5-10)</label>
             <div class="col-md-10">
                <input id="number" name="number" type="number" placeholder="Enter number" class="form-control" ng-model="model.number" min="5" max="10" required />
+                <span class="help-block">{{message}}</span>
             </div>
          </div>
          <div class="form-group" form-group 
@@ -51,6 +53,7 @@
                   <option value="2">Two</option>
                   <option value="3">Three</option>
                </select>
+                <span class="help-block">{{message}}</span>
             </div>
          </div>
 
@@ -62,7 +65,6 @@
    </div>
 
    <script src="lib/angular/angular.js"></script>
-   <script src="lib/angular-ui/ui-bootstrap-tpls.js"></script>
    <script src="form-group.js"></script>
    <script src="app.js"></script>
 </body>

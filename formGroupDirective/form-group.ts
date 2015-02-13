@@ -17,7 +17,7 @@ interface IFormGroupConfig {
  * Directive
  */
 angular.module('albatross.ng.ui.bootstrap', ['albatross.ng.ui.bootstrap.formGroup'])
-var m = angular.module('albatross.ng.ui.bootstrap.formGroup', ['ui.bootstrap.popover'])
+var m = angular.module('albatross.ng.ui.bootstrap.formGroup', [])
 
 m.constant('formGroupConfig', <IFormGroupConfig> {
    restrict: 'EA',
@@ -39,11 +39,8 @@ m.directive('formGroup', ['formGroupConfig', function (defaultConfig: IFormGroup
       compile: function (element, attrs) {
          var input = angular.element(element[0].querySelector('.form-control'))
 
+          // no .form-control found
          if (input.length < 1) return angular.noop
-
-         // add validation popover
-         input.attr('popover', '{{message}}')
-         input.attr('popover-trigger', 'mouseenter')
 
          return function link($scope, element: ng.IAugmentedJQuery, attrs: ng.IAttributes, formCtrl: ng.IFormController) {
             var inputCtrl: ng.INgModelController = input.controller('ngModel')
