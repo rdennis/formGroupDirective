@@ -4,10 +4,11 @@ Angularjs directive to add validation classes to Bootstrap's form-group componen
 
 Available attributes
 --------------------
-* `pristine-[class|message]`
-* `valid-[class|message]`
-* `invalid-[class|message]`
-* `invalid-{some-error-}message`
+* `invaid-on-blur` - sets `$dirty` when the control loses focus
+* `pristine-[class|message]` - class and message to be used in `$pristine` state
+* `valid-[class|message]` - class and message to be used in `$valid` state
+* `invalid-[class|message]` - class and message to be used in `$invalid` state
+* `invalid-{some-error-}message` - messaege to be used when `{someEror}` is present in `$error`
 
 Example
 ----------
