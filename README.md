@@ -12,7 +12,7 @@ Available attributes
 Example
 ----------
 ```html
-<form name="form" novalidate>
+<form novalidate>
   <div class="form-group" form-group
       pristine-class="has-warning"
       pristine-message="Pristine number"
@@ -25,6 +25,7 @@ Example
       invalid-required-message="A number is required">
     <label for="number" class="control-label">Input</label>
     <input id="number" type="number" class="form-control" ng-model="number" min="1" max="10" required />
+    <span class="help-block">{{message}}</span>
   </div>
 </form>
 ```
