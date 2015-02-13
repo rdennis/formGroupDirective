@@ -51,6 +51,7 @@ m.directive('formGroup', ['formGroupConfig', function (defaultConfig) {
                         var status = Object.keys(inputCtrl.$error).reduce(function (previous, current) {
                             if (inputCtrl.$error[current])
                                 return previous + '|' + current;
+                            return previous;
                         }, 'invalid');
                         return status;
                     }

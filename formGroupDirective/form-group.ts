@@ -68,7 +68,8 @@ m.directive('formGroup', ['formGroupConfig', function (defaultConfig: IFormGroup
                function () {
                   if (inputCtrl.$invalid && (inputCtrl.$dirty || formCtrl.$submitted)) {
                      var status = Object.keys(inputCtrl.$error).reduce(function (previous, current) {
-                        if (inputCtrl.$error[current]) return previous + '|' + current
+                         if (inputCtrl.$error[current]) return previous + '|' + current
+                         return previous
                      }, 'invalid')
                      return status
                   }
