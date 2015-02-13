@@ -31,6 +31,7 @@ Example
 
 Future Plans
 ------------
+* Remove requirement for .form-control (perhaps child directive?)
 * Specific pristine or valid messages
 * Specific invalid classes (`invalid-{some-error}-class`)
 * .form-group to take on Angular validation classes (`.ng-pristine`, `.ng-valid`, `.ng-invalid`, etc.)
