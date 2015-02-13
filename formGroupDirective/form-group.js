@@ -26,24 +26,22 @@ m.directive('formGroup', ['formGroupConfig', function (defaultConfig) {
             // add validation popover
             input.attr('popover', '{{message}}');
             input.attr('popover-trigger', 'mouseenter');
-            return function link($scope, element, attrs) {
-                var formCtrl = element.controller('form');
+            return function link($scope, element, attrs, formCtrl) {
                 var inputCtrl = input.controller('ngModel');
                 if (!formCtrl || !inputCtrl)
                     return;
-                // set scope from attrs and watch for changes
+                // set default attrs
                 angular.forEach(defaultConfig, function (value, key) {
                     if (key === 'restrict')
                         return;
-                    $scope[key] = attrs[key] || value;
-                    attrs.$observe(key, function (value) {
-                        $scope[key] = value;
-                    });
+                    if (angular.isDefined(attrs[key]))
+                        return;
+                    attrs[key] = value;
                 });
                 $scope.message = '';
                 if ($scope.invalidOnBlur) {
                     var setDirty = function () {
-                        inputCtrl.$dirty = true;
+                        inputCtrl.$setDirty();
                     };
                     input.on('blur', setDirty);
                     input.on('$destroy', function ($event) {
@@ -51,18 +49,37 @@ m.directive('formGroup', ['formGroupConfig', function (defaultConfig) {
                     });
                 }
                 $scope.$watch(function () {
-                    if (inputCtrl.$invalid && (inputCtrl.$dirty || formCtrl.$submitted))
-                        return 'invalid';
+                    if (inputCtrl.$invalid && (inputCtrl.$dirty || formCtrl.$submitted)) {
+                        var status = Object.keys(inputCtrl.$error).reduce(function (previous, current) {
+                            if (inputCtrl.$error[current])
+                                return previous + '|' + current;
+                        }, 'invalid');
+                        return status;
+                    }
                     if (inputCtrl.$valid && (inputCtrl.$dirty || formCtrl.$submitted))
                         return 'valid';
                     if (inputCtrl.$pristine)
                         return 'pristine';
                 }, function (newState, oldState, scope) {
-                    var oldClass = scope[oldState + 'Class'];
-                    var newClass = scope[newState + 'Class'];
-                    var message = scope[newState + 'Message'];
+                    var newFlags = newState.split('|');
+                    newState = newFlags[0];
+                    newFlags = newFlags.slice(1);
+                    // ensure we do not have flags in oldState
+                    oldState = oldState.split('|')[0];
+                    var oldClass = attrs[oldState + 'Class'];
+                    var newClass = attrs[newState + 'Class'];
+                    var message = attrs[newState + 'Message']; // default message
+                    // check if a specific message is available
+                    var specificMessage = newFlags.reduce(function (message, flag, index) {
+                        var messageKey = newState + flag.charAt(0).toUpperCase() + flag.slice(1) + 'Message';
+                        var specificMessage = attrs[messageKey];
+                        if (angular.isDefined(specificMessage)) {
+                            message += (index > 0 ? '\n' : '') + specificMessage;
+                            return message;
+                        }
+                    }, '');
                     element.removeClass(oldClass).addClass(newClass);
-                    $scope.message = message;
+                    $scope.message = specificMessage || message;
                 });
             };
         }

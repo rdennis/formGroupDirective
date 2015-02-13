@@ -13,19 +13,36 @@
       <h1>Angular\Bootstrap form-group directive</h1>
 
       <form name="form" class="form-horizontal" ng-submit="submit(form)" novalidate>
-         <div class="form-group" form-group valid-message="Nice text!" invalid-message="Please enter some text">
+         <div class="form-group" form-group 
+              pristine-message="Pristine text"
+              valid-message="Nice text!" 
+              invalid-message="Please enter some text"
+              invalid-required-message="Some text is required"
+              invalid-minlength-message="Please enter at least 3 characters"
+              invalid-maxlength-message="Whoa! That's too long!">
             <label for="text" class="col-md-2 control-label">Text</label>
             <div class="col-md-10">
-               <input id="text" name="text" type="text" placeholder="Enter text" class="form-control" ng-model="model.text" required />
+               <input id="text" name="text" type="text" placeholder="Enter text" class="form-control" ng-model="model.text" required
+                      ng-minlength="3"
+                      ng-maxlength="10" />
             </div>
          </div>
-         <div class="form-group" form-group valid-message="Nice number!" invalid-message="Please enter a number from 5-10">
+         <div class="form-group" form-group valid-message="Nice number!"
+              pristine-message="Pristine number"
+              invalid-message="Please enter a number from 5-10"
+              invalid-min-message="The number is too low"
+              invalid-max-message="The number is too high"
+              invalid-required-message="The number is required">
             <label for="number" class="col-md-2 control-label">Number (5-10)</label>
             <div class="col-md-10">
                <input id="number" name="number" type="number" placeholder="Enter number" class="form-control" ng-model="model.number" min="5" max="10" required />
             </div>
          </div>
-         <div class="form-group" form-group valid-message="Nice selection!" invalid-message="Please make a selection">
+         <div class="form-group" form-group 
+              pristine-message="Pristine selection"
+              valid-message="Nice selection!" 
+              invalid-message="Please make a selection"
+              invalid-required-message="A selection is required">
             <label for="select" class="col-md-2 control-label">Select</label>
             <div class="col-md-10">
                <select id="select" name="select" class="form-control" ng-model="model.select" required>
