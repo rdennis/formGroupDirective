@@ -30,12 +30,18 @@
                formCtrl: IFakeFormController = $element.controller('form') || { $submitted: false },
                control: ng.INgModelController = null
 
+            formGroupCtrl.options = {}
+
             // set default attrs
-            angular.forEach(defaultConfig, function (value, key) {
+            angular.forEach(defaultConfig, function (value: Object, key) {
                if (key === 'restrict') return
                if (angular.isDefined($attrs[key])) return
-               $attrs[key] = value
+               $attrs[key] = value.toString()
             })
+
+            if ($scope.$eval($attrs['invalidOnBlur']) == true) {
+               formGroupCtrl.options.invalidOnBlur = true
+            }
 
             $scope['message'] = ''
 
@@ -124,9 +130,18 @@
 
             formGroupCtrl.$setControl(modelCtrl)
 
-            $scope.$on('$destroy', function () {
-               formGroupCtrl.$removeControl(modelCtrl)
-            })
+            if (formGroupCtrl.options.invalidOnBlur) {
+               element.on('blur', invalidate)
+
+               $scope.$on('$destroy', function () {
+                  element.off('blur', invalidate)
+                  formGroupCtrl.$removeControl(modelCtrl)
+               })
+
+               function invalidate() {
+                  modelCtrl.$setDirty()
+               }
+            }
          }
       }
 
@@ -149,6 +164,8 @@
    }
 
    export interface IFormGroupController {
+      options: { invalidOnBlur?: boolean }
+
       $setControl(modelCtrl: ng.INgModelController): ng.INgModelController
       $removeControl(modelCtrl: ng.INgModelController): ng.INgModelController
    }

@@ -25,14 +25,18 @@ var formGroup;
             scope: true,
             controller: ['$scope', '$element', '$attrs', function ($scope, $element, $attrs) {
                 var formGroupCtrl = this, formCtrl = $element.controller('form') || { $submitted: false }, control = null;
+                formGroupCtrl.options = {};
                 // set default attrs
                 angular.forEach(defaultConfig, function (value, key) {
                     if (key === 'restrict')
                         return;
                     if (angular.isDefined($attrs[key]))
                         return;
-                    $attrs[key] = value;
+                    $attrs[key] = value.toString();
                 });
+                if ($scope.$eval($attrs['invalidOnBlur']) == true) {
+                    formGroupCtrl.options.invalidOnBlur = true;
+                }
                 $scope['message'] = '';
                 formGroupCtrl.$setControl = function (ctrl) {
                     control = ctrl;
@@ -108,9 +112,16 @@ var formGroup;
                 if (!modelCtrl || !formGroupCtrl)
                     return;
                 formGroupCtrl.$setControl(modelCtrl);
-                $scope.$on('$destroy', function () {
-                    formGroupCtrl.$removeControl(modelCtrl);
-                });
+                if (formGroupCtrl.options.invalidOnBlur) {
+                    element.on('blur', invalidate);
+                    $scope.$on('$destroy', function () {
+                        element.off('blur', invalidate);
+                        formGroupCtrl.$removeControl(modelCtrl);
+                    });
+                    function invalidate() {
+                        modelCtrl.$setDirty();
+                    }
+                }
             }
         };
         return definition;
