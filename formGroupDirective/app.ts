@@ -2,7 +2,7 @@
 
 var app = angular.module('app', ['albatross.ng.ui.bootstrap'])
 
-app.config(['formGroupConfig', function (formGroupConfig: IFormGroupConfig) {
+app.config(['formGroupConfig', function (formGroupConfig: formGroup.IFormGroupConfig) {
    formGroupConfig.invalidOnBlur = true,
    formGroupConfig.validClass = 'has-success'
 }])

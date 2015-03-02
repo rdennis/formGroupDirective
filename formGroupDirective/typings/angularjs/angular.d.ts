@@ -431,6 +431,8 @@ declare module ng {
          * to do reverse lookup from normalized name back to actual name.
          */
         $attr: Object;
+
+        $normalize(name: string): string;
     }
 
     /**

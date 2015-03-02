@@ -28,16 +28,18 @@
                 <span class="help-block">{{message}}</span>
             </div>
          </div>
-         <div class="form-group" form-group valid-message="Nice number!"
+         <div class="form-group" form-group valid-message="{{model.number}} is a nice number!"
               pristine-message="Pristine number"
               invalid-message="Please enter a number from 5-10"
-              invalid-min-message="The number is too low"
-              invalid-max-message="The number is too high"
+              invalid-min-message="The number {{model.number}} is too low"
+              invalid-max-message="The number {{model.number}} is too high"
               invalid-required-message="The number is required">
             <label for="number" class="col-md-2 control-label">Number (5-10)</label>
             <div class="col-md-10">
-               <input id="number" name="number" type="number" placeholder="Enter number" class="form-control" ng-model="model.number" min="5" max="10" required />
-                <span class="help-block">{{message}}</span>
+               <input id="number" name="number" type="number" placeholder="Enter number" class="form-control"
+                      ng-model="model.number" min="5" max="10" required
+                      ng-model-options="{allowInvalid: true}" />
+               <span class="help-block">{{message}}</span>
             </div>
          </div>
          <div class="form-group" form-group 
